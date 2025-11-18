@@ -1,0 +1,19 @@
+/* Main Styles for Car Rental System */
+.root {
+    -fx-font-family: "Arial";
+}
+
+.button {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+}
+
+.label {
+    -fx-font-size: 14px;
+}
+
+.text-field, .password-field {
+    -fx-font-size: 14px;
+    -fx-pref-width: 200px;
+}
