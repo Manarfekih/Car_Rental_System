@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="controller.LoginController"
+      spacing="15"
+      alignment="CENTER">
+
+    <!-- Padding -->
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <!-- Title -->
+    <Label text="User Login" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+
+    <!-- Username Field -->
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="Username:" minWidth="100"/>
+        <TextField fx:id="usernameField" promptText="Enter username" />
+    </HBox>
+
+    <!-- Password Field -->
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="Password:" minWidth="100"/>
+        <PasswordField fx:id="passwordField" promptText="Enter password" />
+    </HBox>
+
+    <!-- Login Button -->
+    <Button fx:id="loginButton" text="Login" maxWidth="200"/>
+
+    <!-- Message Label -->
+    <Label fx:id="messageLabel" textFill="red" wrapText="true" maxWidth="300"/>
+
+    <!-- Register Link/Button -->
+    <Button fx:id="registerLink" text="Register" 
+            style="-fx-background-color: transparent; -fx-text-fill: blue; -fx-underline: true;"
+            visible="false"/>
+
+</VBox>

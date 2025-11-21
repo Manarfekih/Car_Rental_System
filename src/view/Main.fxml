@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="controller.MainController"
+      spacing="15"
+      alignment="CENTER">
+
+    <!-- Correct padding -->
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <!-- Welcome Label -->
+    <Label fx:id="welcomeLabel" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+
+    <!-- Admin Buttons -->
+    <Button fx:id="manageUsersButton" text="Manage Users" maxWidth="200"/>
+    <Button fx:id="manageCarsButton" text="Manage Cars" maxWidth="200"/>
+    <Button fx:id="manageRentalsButton" text="Manage Rentals" maxWidth="200"/>
+
+    <!-- Logout Button -->
+    <Button fx:id="logoutButton" text="Logout" maxWidth="200" onAction="#logout" />
+
+</VBox>

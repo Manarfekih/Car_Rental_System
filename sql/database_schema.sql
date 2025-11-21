@@ -5,7 +5,8 @@ USE car_rental_db;
 -- USERS TABLE (matches User class)
 CREATE TABLE users (
     user_id INT PRIMARY KEY AUTO_INCREMENT,
-    username VARCHAR(50) UNIQUE NOT NULL,
+    username VARCHAR(50) NOT NULL,
+    email VARCHAR(100) UNIQUE, 
     password VARCHAR(255) NOT NULL,
     role ENUM('admin', 'employee', 'client') NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -48,10 +49,10 @@ CREATE TABLE rentals (
 );
 
 -- SAMPLE DATA
-INSERT INTO users (username, password, role) VALUES
-('Manar', 'admin123', 'admin'),
-('employee1', 'emp123', 'employee'),
-('client1', 'client123', 'client');
+INSERT INTO users (username, email, password, role) VALUES
+('Manar', 'admin@example.com', 'admin123', 'admin'),
+('employee1', 'employee1@example.com', 'emp123', 'employee'),
+('client1', 'client1@example.com', 'client123', 'client');
 
 INSERT INTO clients (user_id, name, email, phone, license_number, address) VALUES
 (3, 'John Doe', 'john@email.com', '123456789', 'LIC998877', '123 Main St');

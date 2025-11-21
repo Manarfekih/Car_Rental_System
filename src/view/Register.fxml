@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+
+<VBox xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="controller.RegisterController"
+      spacing="15"
+      alignment="CENTER"
+      prefWidth="400" prefHeight="350"
+      style="-fx-padding: 20; -fx-background-color: #f0f0f0;">
+
+    <Label fx:id="messageLabel" text="Register Form" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+    <TextField fx:id="usernameField" promptText="Username" prefWidth="200"/>
+    <PasswordField fx:id="passwordField" promptText="Password" prefWidth="200"/>
+    <PasswordField fx:id="confirmPasswordField" promptText="Confirm Password" prefWidth="200"/>
+    <TextField fx:id="emailField" promptText="Email" /> 
+    
+    <!-- Add ComboBox here -->
+    <ComboBox fx:id="roleComboBox" prefWidth="200" promptText="Select Role"/>
+    
+    <Button text="Register" fx:id="registerButton" prefWidth="150"/>
+</VBox>
