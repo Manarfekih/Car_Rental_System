@@ -5,19 +5,27 @@
 <VBox xmlns="http://javafx.com/javafx/21"
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="controller.RegisterController"
-      spacing="15"
+      spacing="10"
       alignment="CENTER"
-      prefWidth="400" prefHeight="350"
+      prefWidth="400" prefHeight="500"
       style="-fx-padding: 20; -fx-background-color: #f0f0f0;">
 
+    <!-- Title -->
     <Label fx:id="messageLabel" text="Register Form" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
-    <TextField fx:id="usernameField" promptText="Username" prefWidth="200"/>
-    <PasswordField fx:id="passwordField" promptText="Password" prefWidth="200"/>
-    <PasswordField fx:id="confirmPasswordField" promptText="Confirm Password" prefWidth="200"/>
-    <TextField fx:id="emailField" promptText="Email" /> 
-    
-    <!-- Add ComboBox here -->
-    <ComboBox fx:id="roleComboBox" prefWidth="200" promptText="Select Role"/>
-    
+
+    <!-- User info -->
+    <TextField fx:id="usernameField" promptText="Username" prefWidth="250"/>
+    <PasswordField fx:id="passwordField" promptText="Password" prefWidth="250"/>
+    <PasswordField fx:id="confirmPasswordField" promptText="Confirm Password" prefWidth="250"/>
+    <TextField fx:id="emailField" promptText="Email" prefWidth="250"/>
+
+    <!-- Client info -->
+    <TextField fx:id="nameField" promptText="Full Name" prefWidth="250"/>
+    <TextField fx:id="phoneField" promptText="Phone" prefWidth="250"/>
+    <TextField fx:id="licenseField" promptText="License Number" prefWidth="250"/>
+    <TextField fx:id="addressField" promptText="Address" prefWidth="250"/>
+
+    <!-- Register button -->
     <Button text="Register" fx:id="registerButton" prefWidth="150"/>
+
 </VBox>

@@ -24,17 +24,8 @@ public class UserService {
 
     // Add new user → return generated user_id OR -1 on failure
     public int addUser(User user) {
-
-        // Validate role
-        if (!user.getRole().equals("admin") &&
-            !user.getRole().equals("employee") &&
-            !user.getRole().equals("client")) 
-        {
-            System.out.println("Invalid role: " + user.getRole());
-            return -1;
-        }
-
-        // Insert SQL
+        // Force role = client for GUI registration
+        String role = "client"; 
         String sql = "INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, ?)";
 
         try (Connection conn = DatabaseManager.getConnection();
@@ -43,13 +34,10 @@ public class UserService {
             stmt.setString(1, user.getUsername());
             stmt.setString(2, user.getEmail());
             stmt.setString(3, user.getPassword());
-            stmt.setString(4, user.getRole());
-
-            System.out.println("Inserting user: " + user.getUsername() + ", role=" + user.getRole());
+            stmt.setString(4, role); // always client
 
             int rows = stmt.executeUpdate();
-            if (rows == 0)
-                return -1;
+            if (rows == 0) return -1;
 
             ResultSet rs = stmt.getGeneratedKeys();
             if (rs.next()) {

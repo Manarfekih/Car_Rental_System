@@ -13,38 +13,34 @@ public class Client {
 	    
 	    
 	    //Constructor 
-		public Client(int client_id, int user_id, String name, String email, String phone, String licenseNumber,
-				String address) {
-			super();
-			this.client_id = client_id;
-			user_id = user_id;
-			this.name = name;
-			this.email = email;
-			this.phone = phone;
-			this.licenseNumber = licenseNumber;
-			this.address = address;
-		}
+	    public Client(int client_id, int user_id, String name, String email, String phone, String licenseNumber, String address) {
+	        this.client_id = client_id;
+	        this.user_id = user_id; 
+	        this.name = name;
+	        this.email = email;
+	        this.phone = phone;
+	        this.licenseNumber = licenseNumber;
+	        this.address = address;
+	    }
 
 
-		
-		//Getters & Setters
-		public int getClientId() {
+		public int getClient_id() {
 			return client_id;
 		}
 
 
-		public void setClientId(int clientId) {
-			this.client_id = clientId;
+		public void setClient_id(int client_id) {
+			this.client_id = client_id;
 		}
 
 
-		public int getUserId() {
+		public int getUser_id() {
 			return user_id;
 		}
 
 
-		public void setUserId(int user_id) {
-			user_id = user_id;
+		public void setUser_id(int user_id) {
+			this.user_id = user_id;
 		}
 
 
@@ -98,14 +94,14 @@ public class Client {
 		}
 
 
-        
-		
-		//ToString
 		@Override
 		public String toString() {
-			return "Client [clientId=" + client_id + ", UserId=" + user_id + ", name=" + name + ", email=" + email
+			return "Client [client_id=" + client_id + ", user_id=" + user_id + ", name=" + name + ", email=" + email
 					+ ", phone=" + phone + ", licenseNumber=" + licenseNumber + ", address=" + address + "]";
 		}
+
+
+
 		
 		
 		

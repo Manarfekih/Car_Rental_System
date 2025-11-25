@@ -12,17 +12,17 @@ public class Test extends Application {
 	@Override
 	public void start(Stage stage) {
 	    try {
-	        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Login.fxml"));
+	        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Register.fxml"));
 	        Scene scene = new Scene(loader.load());
 	        stage.setScene(scene);
-	        stage.setTitle("Car Rental System - Login");
+	        stage.setTitle("Car Rental System - Ragister Now !");
 	        stage.show();
 	    } catch (IOException e) {
 	        e.printStackTrace(); // Log the error
 	        // Show an alert to the user
 	        Alert alert = new Alert(Alert.AlertType.ERROR);
 	        alert.setTitle("Error");
-	        alert.setHeaderText("Failed to load the login screen");
+	        alert.setHeaderText("Failed to load the Registration Page");
 	        alert.setContentText("Please check your FXML file and try again.\n" + e.getMessage());
 	        alert.showAndWait();
 	    }

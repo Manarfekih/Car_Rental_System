@@ -11,10 +11,16 @@ public class User {
     private String password;
     private String role;
 
-    // Define valid roles
+    // Only valid roles for internal use (admin/employee creation is restricted)
     private static final List<String> VALID_ROLES = Arrays.asList("admin", "employee", "client");
 
     // Constructor
+    // For normal registration, role will be automatically set to "client"
+    public User(int userId, String username, String email, String password) {
+        this(userId, username, email, password, "client");
+    }
+
+    // Internal constructor if you need to set role manually (admin/employee)
     public User(int userId, String username, String email, String password, String role) {
         this.userId = userId;
         setUsername(username);
@@ -24,7 +30,6 @@ public class User {
     }
 
     // --- Getters & Setters ---
-
     public int getUserId() {
         return userId;
     }
@@ -60,8 +65,8 @@ public class User {
     }
 
     public void setPassword(String password) {
-        if (password == null || password.isBlank()) {
-            throw new IllegalArgumentException("Password cannot be empty");
+        if (password == null || password.isBlank() || password.length() < 6) {
+            throw new IllegalArgumentException("Password must be at least 6 characters");
         }
         this.password = password.trim();
     }
@@ -77,7 +82,6 @@ public class User {
         this.role = role.trim().toLowerCase();
     }
 
-    // Optional: String representation for debugging
     @Override
     public String toString() {
         return "User{" +
