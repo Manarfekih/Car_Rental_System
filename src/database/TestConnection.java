@@ -5,7 +5,8 @@ import java.sql.Connection;
 public class TestConnection {
     public static void main(String[] args) {
         try {
-            Connection conn = DatabaseManager.getConnection();
+            // Get connection through the singleton
+            Connection conn = DatabaseManager.getSingleton().getConnection();
             System.out.println("✅ Database connection SUCCESS!");
             conn.close();
         } catch (Exception e) {

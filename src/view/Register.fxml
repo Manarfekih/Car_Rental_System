@@ -7,11 +7,13 @@
       fx:controller="controller.RegisterController"
       spacing="10"
       alignment="CENTER"
-      prefWidth="400" prefHeight="500"
+      prefWidth="400" prefHeight="550"
       style="-fx-padding: 20; -fx-background-color: #f0f0f0;">
 
     <!-- Title -->
-    <Label fx:id="messageLabel" text="Register Form" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+    <Label fx:id="messageLabel"
+           text="Register Form"
+           style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
 
     <!-- User info -->
     <TextField fx:id="usernameField" promptText="Username" prefWidth="250"/>
@@ -21,11 +23,16 @@
 
     <!-- Client info -->
     <TextField fx:id="nameField" promptText="Full Name" prefWidth="250"/>
-    <TextField fx:id="phoneField" promptText="Phone" prefWidth="250"/>
+    <TextField fx:id="phoneField" promptText="Phone (optional)" prefWidth="250"/>
     <TextField fx:id="licenseField" promptText="License Number" prefWidth="250"/>
     <TextField fx:id="addressField" promptText="Address" prefWidth="250"/>
 
     <!-- Register button -->
-    <Button text="Register" fx:id="registerButton" prefWidth="150"/>
+    <Button fx:id="registerButton" text="Register" prefWidth="150"/>
 
+    <!-- Login link (text fixed only) -->
+    <Button fx:id="loginLink"
+            text="Already have an account? Sign In"
+            style="-fx-background-color: transparent; -fx-underline: true; -fx-text-fill: blue;"
+            />
 </VBox>

@@ -12,6 +12,7 @@ import service.UserService;
 import service.ClientService;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class RegisterController {
 
@@ -25,17 +26,22 @@ public class RegisterController {
     private Button registerButton;
     @FXML
     private Label messageLabel;
+    @FXML
+    private Button loginLink;
 
     private final UserService userService = new UserService();
     private final ClientService clientService = new ClientService();
 
     @FXML
     public void initialize() {
+        if (loginLink != null) {
+            loginLink.setOnAction(e -> openLogin());
+        }
         registerButton.setOnAction(e -> register());
     }
 
     private void register() {
-        // Read inputs
+        // Collect inputs
         String username = usernameField.getText().trim();
         String email = emailField.getText().trim();
         String password = passwordField.getText().trim();
@@ -45,59 +51,116 @@ public class RegisterController {
         String license = licenseField.getText().trim();
         String address = addressField.getText().trim();
 
-        // Validate required fields
-        if (username.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty() ||
-            name.isEmpty() || license.isEmpty() || address.isEmpty()) {
-            messageLabel.setText("Please fill all required fields!");
+        // Validate
+        if (!validateInputs(username, email, password, confirmPassword, name, license, address))
             return;
-        }
 
-        // Password match
-        if (!password.equals(confirmPassword)) {
-            messageLabel.setText("Passwords do not match.");
-            return;
-        }
+        // Create user
+        User user = new User(0, username, email, password, "client");
 
-        // Check duplicate email
-        if (userService.isEmailTaken(email)) {
-            messageLabel.setText("Email already registered. Please log in.");
-            return;
-        }
-
-        // Create user (role fixed to 'client')
-        User user;
+        int userId = 0;
         try {
-            user = new User(0, username, email, password, "client");
-        } catch (IllegalArgumentException e) {
-            messageLabel.setText("Invalid input: " + e.getMessage());
+            userId = userService.addUser(user);
+        } catch (Exception e) {
+            e.printStackTrace();
+            showError("Database error while creating user.");
             return;
         }
 
-        int userId = userService.addUser(user);
         if (userId <= 0) {
-            messageLabel.setText("Error creating user. Try again.");
+            showError("Error creating user.");
             return;
         }
 
-        // Create client linked to user
-        Client client = new Client(0, userId, name, email, phone, license, address);
-        if (!clientService.addClient(client)) {
-            messageLabel.setText("Error creating client profile.");
+        user.setUserId(userId);
+
+        // Create client
+        Client client = new Client(
+                0,
+                user,
+                name,
+                email,
+                phone,
+                license,
+                address
+        );
+
+        boolean inserted = false;
+        try {
+            inserted = clientService.addClient(client);
+        } catch (Exception e) {
+            e.printStackTrace();
+            showError("Database error while creating client.");
             return;
         }
 
-        // Success
-        messageLabel.setText("Registration successful!");
+        if (!inserted) {
+            showError("Error creating client profile.");
+            return;
+        }
 
-        // Open main window
-        User loggedUser = userService.getUserById(userId);
-        if (loggedUser != null) {
-            openMainWindow(loggedUser);
-            // Close registration window
-            Stage stage = (Stage) registerButton.getScene().getWindow();
-            stage.close();
-        } else {
-            messageLabel.setText("Could not retrieve user after registration.");
+        showMessage("Registration successful!");
+        openMainWindow(user);
+
+        // Close registration window
+        Stage stage = (Stage) registerButton.getScene().getWindow();
+        stage.close();
+    }
+
+    private boolean validateInputs(String username, String email, String password, String confirmPassword,
+                                   String name, String license, String address) {
+
+        if (username.isEmpty() || email.isEmpty() || password.isEmpty() ||
+                confirmPassword.isEmpty() || name.isEmpty() || license.isEmpty() ||
+                address.isEmpty()) {
+            showError("Please fill all required fields!");
+            return false;
+        }
+
+        if (!password.equals(confirmPassword)) {
+            showError("Passwords do not match.");
+            return false;
+        }
+
+        try {
+            if (userService.isEmailTaken(email)) {
+                showError("Email already registered.");
+                return false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            showError("Database error while checking email.");
+            return false;
+        }
+
+        return true;
+    }
+
+    private void showError(String msg) {
+        messageLabel.setStyle("-fx-text-fill: red;");
+        messageLabel.setText(msg);
+    }
+
+    private void showMessage(String msg) {
+        messageLabel.setStyle("-fx-text-fill: green;");
+        messageLabel.setText(msg);
+    }
+
+    private void openLogin() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Login.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Login");
+            stage.show();
+
+            Stage current = (Stage) loginLink.getScene().getWindow();
+            current.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showError("Cannot open login form.");
         }
     }
 
@@ -113,10 +176,9 @@ public class RegisterController {
             stage.setScene(new Scene(root));
             stage.setTitle("Car Rental System - Welcome " + user.getUsername());
             stage.show();
-
         } catch (IOException e) {
             e.printStackTrace();
-            messageLabel.setText("Error opening main window.");
+            showError("Error opening main window.");
         }
     }
 }

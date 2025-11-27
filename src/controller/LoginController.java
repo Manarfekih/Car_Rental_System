@@ -13,6 +13,7 @@ import model.User;
 import service.UserService;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class LoginController {
 
@@ -31,6 +32,8 @@ public class LoginController {
     @FXML
     private Button registerLink;
 
+    private final UserService userService = new UserService();
+
     @FXML
     public void initialize() {
         registerLink.setVisible(false); // hide register link initially
@@ -39,47 +42,55 @@ public class LoginController {
     }
 
     private void login() {
+        if (!validateInput()) return;
+
         String username = usernameField.getText().trim();
         String password = passwordField.getText().trim();
 
-        if (username.isEmpty() || password.isEmpty()) {
+        try {
+            User user = userService.login(username, password);
+
+            if (user != null) {
+                messageLabel.setText("Login successful! Role: " + user.getRole());
+                registerLink.setVisible(false);
+
+                // Open main window and pass the logged-in user
+                openMainWindow(user);
+
+                // Close login window
+                Stage stage = (Stage) loginButton.getScene().getWindow();
+                stage.close();
+            } else {
+                messageLabel.setText("User not found. Please register first.");
+                registerLink.setVisible(true); // show register link/button
+            }
+
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+            messageLabel.setText("Database error. Please try again later.");
+        }
+    }
+
+    private boolean validateInput() {
+        if (usernameField.getText().trim().isEmpty() || passwordField.getText().trim().isEmpty()) {
             messageLabel.setText("Please enter username & password.");
-            return;
+            return false;
         }
-
-        UserService userService = new UserService();
-        User user = userService.login(username, password);
-
-        if (user != null) {
-            messageLabel.setText("Login successful! Role: " + user.getRole());
-            registerLink.setVisible(false);
-
-            // Open main window and pass the logged-in user
-            openMainWindow(user);
-
-            // Close login window
-            Stage stage = (Stage) loginButton.getScene().getWindow();
-            stage.close();
-        } else {
-            messageLabel.setText("User not found. Please register first.");
-            registerLink.setVisible(true); // show register link/button
-        }
+        return true;
     }
 
     private void openRegisterForm() {
         try {
-            // Load the Register.fxml
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Register.fxml"));
             Parent root = loader.load();
 
-            // Create new Stage for registration
             Stage stage = new Stage();
             stage.setTitle("Register");
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
-            messageLabel.setText("Cannot open registration form.");
+            messageLabel.setText("Can't open registration form.");
         }
     }
 

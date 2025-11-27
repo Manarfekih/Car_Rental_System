@@ -15,7 +15,7 @@ public class Test extends Application {
 	        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Register.fxml"));
 	        Scene scene = new Scene(loader.load());
 	        stage.setScene(scene);
-	        stage.setTitle("Car Rental System - Ragister Now !");
+	        stage.setTitle("Car Rental System - Register Now !");
 	        stage.show();
 	    } catch (IOException e) {
 	        e.printStackTrace(); // Log the error

@@ -37,8 +37,8 @@
     <Label fx:id="messageLabel" textFill="red" wrapText="true" maxWidth="300"/>
 
     <!-- Register Link/Button -->
-    <Button fx:id="registerLink" text="Register" 
+    <Button fx:id="registerLink" text="Don't have an account !" 
             style="-fx-background-color: transparent; -fx-text-fill: blue; -fx-underline: true;"
-            visible="false"/>
+            visible="true"/>
 
 </VBox>

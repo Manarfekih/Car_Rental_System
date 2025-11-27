@@ -3,97 +3,96 @@ package model;
 import java.time.LocalDate;
 
 public class Rental {
-	
-	private int rentalId;
-    private int clientId;
-    private int carId;
+
+    private int rentalId;
+    private Client client;   
+    private Car car;         
     private LocalDate startDate;
     private LocalDate endDate;
     private double totalPrice;
-    private String status; // active, completed, cancelled
-    
-    //Constructor 
-	public Rental(int rentalId, int clientId, int carId, LocalDate startDate, LocalDate endDate, double totalPrice,
-			String status) {
-		super();
-		this.rentalId = rentalId;
-		this.clientId = clientId;
-		this.carId = carId;
-		this.startDate = startDate;
-		this.endDate = endDate;
-		this.totalPrice = totalPrice;
-		this.status = status;
-	}
+    private String status; 
 
-	
-	//Getters & Setters
-	public int getRentalId() {
-		return rentalId;
-	}
+    // Constructor
+    public Rental(int rentalId, Client client, Car car,
+                  LocalDate startDate, LocalDate endDate,
+                  double totalPrice, String status) {
 
-	public void setRentalId(int rentalId) {
-		this.rentalId = rentalId;
-	}
+        this.rentalId = rentalId;
+        this.client = client;
+        this.car = car;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.totalPrice = totalPrice;
+        this.status = status;
+    }
 
-	public int getClientId() {
-		return clientId;
-	}
+    // Getters & Setters
+    public int getRentalId() {
+        return rentalId;
+    }
 
-	public void setClientId(int clientId) {
-		this.clientId = clientId;
-	}
+    public void setRentalId(int rentalId) {
+        this.rentalId = rentalId;
+    }
 
-	public int getCarId() {
-		return carId;
-	}
+    public Client getClient() {
+        return client;
+    }
 
-	public void setCarId(int carId) {
-		this.carId = carId;
-	}
+    public void setClient(Client client) {
+        this.client = client;
+    }
 
-	public LocalDate getStartDate() {
-		return startDate;
-	}
+    public Car getCar() {
+        return car;
+    }
 
-	public void setStartDate(LocalDate startDate) {
-		this.startDate = startDate;
-	}
+    public void setCar(Car car) {
+        this.car = car;
+    }
 
-	public LocalDate getEndDate() {
-		return endDate;
-	}
+    public LocalDate getStartDate() {
+        return startDate;
+    }
 
-	public void setEndDate(LocalDate endDate) {
-		this.endDate = endDate;
-	}
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+    }
 
-	public double getTotalPrice() {
-		return totalPrice;
-	}
+    public LocalDate getEndDate() {
+        return endDate;
+    }
 
-	public void setTotalPrice(double totalPrice) {
-		this.totalPrice = totalPrice;
-	}
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
+    }
 
-	public String getStatus() {
-		return status;
-	}
+    public double getTotalPrice() {
+        return totalPrice;
+    }
 
-	public void setStatus(String status) {
-		this.status = status;
-	}
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
 
-    
-	//ToString
-	@Override
-	public String toString() {
-		return "Rental [rentalId=" + rentalId + ", clientId=" + clientId + ", carId=" + carId + ", startDate="
-				+ startDate + ", endDate=" + endDate + ", totalPrice=" + totalPrice + ", status=" + status + "]";
-	}
-    
-    
-	
-    
+    public String getStatus() {
+        return status;
+    }
 
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
+    @Override
+    public String toString() {
+        return "Rental{" +
+                "rentalId=" + rentalId +
+                ", client=" + client.getName() +
+                ", car=" + car.getBrand() + " " + car.getModel() +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", totalPrice=" + totalPrice +
+                ", status='" + status + '\'' +
+                '}';
+    }
 }
