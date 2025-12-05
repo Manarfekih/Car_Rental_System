@@ -28,4 +28,9 @@ public class UserService {
     public User getUserById(int id) throws ClassNotFoundException, SQLException {
         return userDAO.getUserById(id);
     }
+    
+    
+    public boolean updateUser(User user) throws ClassNotFoundException, SQLException {
+        return userDAO.updateUser(user);
+    }
 }

@@ -11,9 +11,6 @@ import model.Client;
 import service.UserService;
 import service.ClientService;
 
-import java.io.IOException;
-import java.sql.SQLException;
-
 public class RegisterController {
 
     @FXML
@@ -35,13 +32,20 @@ public class RegisterController {
     @FXML
     public void initialize() {
         if (loginLink != null) {
-            loginLink.setOnAction(e -> openLogin());
+            loginLink.setOnAction(e -> {
+                try { openLogin(); }
+                catch (Exception ex) { showError("Cannot open login form."); }
+            });
         }
-        registerButton.setOnAction(e -> register());
+
+        registerButton.setOnAction(e -> {
+            try { register(); }
+            catch (Exception ex) { showError(ex.getMessage()); }
+        });
     }
 
-    private void register() {
-        // Collect inputs
+    private void register() throws Exception {
+
         String username = usernameField.getText().trim();
         String email = emailField.getText().trim();
         String password = passwordField.getText().trim();
@@ -51,30 +55,18 @@ public class RegisterController {
         String license = licenseField.getText().trim();
         String address = addressField.getText().trim();
 
-        // Validate
         if (!validateInputs(username, email, password, confirmPassword, name, license, address))
             return;
 
-        // Create user
         User user = new User(0, username, email, password, "client");
 
-        int userId = 0;
-        try {
-            userId = userService.addUser(user);
-        } catch (Exception e) {
-            e.printStackTrace();
-            showError("Database error while creating user.");
-            return;
-        }
-
+        int userId = userService.addUser(user);
         if (userId <= 0) {
-            showError("Error creating user.");
-            return;
+            throw new Exception("Error creating user.");
         }
 
         user.setUserId(userId);
 
-        // Create client
         Client client = new Client(
                 0,
                 user,
@@ -85,30 +77,22 @@ public class RegisterController {
                 address
         );
 
-        boolean inserted = false;
-        try {
-            inserted = clientService.addClient(client);
-        } catch (Exception e) {
-            e.printStackTrace();
-            showError("Database error while creating client.");
-            return;
-        }
+        boolean inserted = clientService.addClient(client);
 
         if (!inserted) {
-            showError("Error creating client profile.");
-            return;
+            throw new Exception("Error creating client profile.");
         }
 
         showMessage("Registration successful!");
         openMainWindow(user);
 
-        // Close registration window
         Stage stage = (Stage) registerButton.getScene().getWindow();
         stage.close();
     }
 
-    private boolean validateInputs(String username, String email, String password, String confirmPassword,
-                                   String name, String license, String address) {
+    private boolean validateInputs(String username, String email, String password,
+                                   String confirmPassword, String name,
+                                   String license, String address) throws Exception {
 
         if (username.isEmpty() || email.isEmpty() || password.isEmpty() ||
                 confirmPassword.isEmpty() || name.isEmpty() || license.isEmpty() ||
@@ -122,14 +106,8 @@ public class RegisterController {
             return false;
         }
 
-        try {
-            if (userService.isEmailTaken(email)) {
-                showError("Email already registered.");
-                return false;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            showError("Database error while checking email.");
+        if (userService.isEmailTaken(email)) {
+            showError("Email already registered.");
             return false;
         }
 
@@ -146,39 +124,44 @@ public class RegisterController {
         messageLabel.setText(msg);
     }
 
-    private void openLogin() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Login.fxml"));
-            Parent root = loader.load();
+    private void openLogin() throws Exception {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Login.fxml"));
+        Parent root = loader.load();
 
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Login");
-            stage.show();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.setTitle("Login");
+        stage.show();
 
-            Stage current = (Stage) loginLink.getScene().getWindow();
-            current.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-            showError("Cannot open login form.");
-        }
+        Stage current = (Stage) loginLink.getScene().getWindow();
+        current.close();
     }
 
-    private void openMainWindow(User user) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Main.fxml"));
-            Parent root = loader.load();
+    private void openMainWindow(User user) throws Exception {
 
-            MainController mainController = loader.getController();
-            mainController.setLoggedUser(user);
+        FXMLLoader loader;
+        Parent root;
+        Stage stage = new Stage();
 
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Car Rental System - Welcome " + user.getUsername());
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-            showError("Error opening main window.");
+        switch (user.getRole()) {
+            case "admin":
+                loader = new FXMLLoader(getClass().getResource("/view/AdminDashboard.fxml"));
+                root = loader.load();
+                AdminDashboardController adminController = loader.getController();
+                adminController.setLoggedUser(user);
+                stage.setTitle("Admin Dashboard - Welcome " + user.getUsername());
+                break;
+
+            default:
+                loader = new FXMLLoader(getClass().getResource("/view/Main.fxml"));
+                root = loader.load();
+                MainController mainController = loader.getController();
+                mainController.setLoggedUser(user);
+                stage.setTitle("Welcome " + user.getUsername());
+                break;
         }
+
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 }

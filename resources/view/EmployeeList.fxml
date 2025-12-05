@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controller.EmployeeListController"
+            prefWidth="900" prefHeight="600">
+
+    <top>
+        <HBox spacing="10" style="-fx-padding: 10;">
+            <Button fx:id="btnAdd" text="Add Employee"/>
+            <Button fx:id="btnEdit" text="Edit Employee"/>
+            <Button fx:id="btnDelete" text="Delete Employee"/>
+            <TextField fx:id="txtSearch" promptText="Search by username or email" HBox.hgrow="ALWAYS"/>
+            <Button fx:id="btnSearch" text="Search"/>
+        </HBox>
+    </top>
+
+    <center>
+        <TableView fx:id="tableEmployees" prefHeight="500">
+            <columns>
+                <TableColumn fx:id="colId" text="ID"/>
+                <TableColumn fx:id="colUsername" text="Username"/>
+                <TableColumn fx:id="colEmail" text="Email"/>
+                <TableColumn fx:id="colPassword" text="Password"/>
+            </columns>
+        </TableView>
+    </center>
+
+</BorderPane>

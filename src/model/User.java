@@ -14,14 +14,28 @@ public class User {
     // Only valid roles for internal use (admin/employee creation is restricted)
     private static final List<String> VALID_ROLES = Arrays.asList("admin", "employee", "client");
 
-    // Constructor
-    // For normal registration, role will be automatically set to "client"
-    public User(int userId, String username, String email, String password) {
-        this(userId, username, email, password, "client");
+    // Default constructor (needed for JavaFX, DAO operations)
+    public User() {
+        // Default values
+        this.userId = 0;
+        this.username = "";
+        this.email = "";
+        this.password = "";
+        this.role = "client";
     }
 
-    // Internal constructor if you need to set role manually (admin/employee)
+    // Constructor with userId, username, email, password
+    public User(int userId, String username, String email, String password) {
+        this();
+        this.userId = userId;
+        setUsername(username);
+        setEmail(email);
+        setPassword(password);
+    }
+
+    // Full constructor
     public User(int userId, String username, String email, String password, String role) {
+        this();
         this.userId = userId;
         setUsername(username);
         setEmail(email);
@@ -65,7 +79,10 @@ public class User {
     }
 
     public void setPassword(String password) {
-        if (password == null || password.isBlank() || password.length() < 6) {
+        if (password == null || password.isBlank()) {
+            throw new IllegalArgumentException("Password cannot be empty");
+        }
+        if (password.length() < 6) {
             throw new IllegalArgumentException("Password must be at least 6 characters");
         }
         this.password = password.trim();

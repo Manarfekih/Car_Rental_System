@@ -115,4 +115,22 @@ public class UserDAO implements IUserDAO {
 
         return list;
     }
+    
+    @Override
+    public boolean updateUser(User user) throws SQLException, ClassNotFoundException {
+        String sql = "UPDATE users SET username = ?, email = ?, password = ?, role = ? WHERE user_id = ?";
+        
+        try (Connection conn = DatabaseManager.getSingleton().getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            stmt.setString(1, user.getUsername());
+            stmt.setString(2, user.getEmail());
+            stmt.setString(3, user.getPassword());
+            stmt.setString(4, user.getRole());
+            stmt.setInt(5, user.getUserId());
+            
+            int rows = stmt.executeUpdate();
+            return rows > 0;
+        }
+    }
 }

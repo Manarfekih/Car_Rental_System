@@ -44,14 +44,15 @@ public class MainController {
      * Display username and role
      */
     private void initUserData() {
-        welcomeLabel.setText("Welcome, " + loggedUser.getUsername());
+        welcomeLabel.setText("Welcome, " + loggedUser.getUsername() + " (" + loggedUser.getRole() + ")");
     }
 
     /**
      * Show/hide buttons based on role
      */
     private void configureUIByRole() {
-        String role = loggedUser.getRole();
+        String role = loggedUser.getRole().toLowerCase();
+        
         switch (role) {
             case "admin":
                 manageUsersButton.setVisible(true);
@@ -69,6 +70,7 @@ public class MainController {
                 manageRentalsButton.setVisible(true);
                 break;
             default:
+                // Hide all for unknown roles
                 manageUsersButton.setVisible(false);
                 manageCarsButton.setVisible(false);
                 manageRentalsButton.setVisible(false);
@@ -77,18 +79,26 @@ public class MainController {
 
     /**
      * Open User Management (Admin only)
+     * @throws Exception 
      */
     @FXML
-    private void openUserManagement() {
+    private void openUserManagement() throws Exception {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/UserManagement.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/AdminDashboard.fxml"));
             Parent root = loader.load();
+            
+            // Pass the user to AdminDashboardController
+            AdminDashboardController controller = loader.getController();
+            controller.setLoggedUser(loggedUser);
+            
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
-            stage.setTitle("User Management");
+            stage.setTitle("Admin Dashboard");
             stage.show();
+            
         } catch (IOException e) {
             e.printStackTrace();
+            showAlert("Error", "Cannot open Admin Dashboard: " + e.getMessage());
         }
     }
 
@@ -98,14 +108,21 @@ public class MainController {
     @FXML
     private void openCarManagement() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/CarManagement.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/cars.fxml"));
             Parent root = loader.load();
+            
+            // Pass user to CarManagementController if needed
+            CarManagementController controller = loader.getController();
+            // If CarManagementController has setLoggedUser method
+            // controller.setLoggedUser(loggedUser);
+            
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.setTitle("Car Management");
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
+            showAlert("Error", "Cannot open Car Management: " + e.getMessage());
         }
     }
 
@@ -115,7 +132,7 @@ public class MainController {
     @FXML
     private void openRentalManagement() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/RentalManagement.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/rentals.fxml"));
             Parent root = loader.load();
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
@@ -123,6 +140,7 @@ public class MainController {
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
+            showAlert("Error", "Cannot open Rental Management: " + e.getMessage());
         }
     }
 
@@ -132,21 +150,24 @@ public class MainController {
     @FXML
     private void logout() {
         try {
-            // Load the login FXML
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Login.fxml"));
             Parent root = loader.load();
-
-            // Get the current stage (the main window)
+            
             Stage stage = (Stage) logoutButton.getScene().getWindow();
-
-            // Set the scene to login
             stage.setScene(new Scene(root));
             stage.setTitle("Login");
-
+            
         } catch (IOException e) {
             e.printStackTrace();
+            showAlert("Error", "Cannot logout: " + e.getMessage());
         }
     }
-
     
+    private void showAlert(String title, String message) {
+        javafx.scene.control.Alert alert = new javafx.scene.control.Alert(
+            javafx.scene.control.Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
 }

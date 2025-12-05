@@ -12,5 +12,7 @@ public interface ICarDAO {
 	    boolean deleteCar(int carId) throws SQLException, ClassNotFoundException;
 	    Car getCarById(int carId) throws SQLException, ClassNotFoundException;
 	    List<Car> getAllCars() throws SQLException, ClassNotFoundException;
+		List<Car> searchCars(String keyword) throws SQLException, ClassNotFoundException;
+		List<Car> getAvailableCars() throws SQLException, ClassNotFoundException;
 
 }

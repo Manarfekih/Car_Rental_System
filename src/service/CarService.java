@@ -33,4 +33,19 @@ public class CarService {
     public List<Car> getAllCars() throws ClassNotFoundException, SQLException {
         return carDAO.getAllCars();
     }
+    
+    public int getTotalCarsCount() throws ClassNotFoundException, SQLException {
+        List<Car> cars = getAllCars();
+        return cars.size();
+    }
+    
+    public List<Car> searchCars(String keyword) throws ClassNotFoundException, SQLException {
+        return carDAO.searchCars(keyword);
+    }
+    
+    // Add getAvailableCars method
+    public List<Car> getAvailableCars() throws ClassNotFoundException, SQLException {
+        return carDAO.getAvailableCars();
+    }
+    
 }

@@ -34,4 +34,10 @@ public class ClientService {
     public List<Client> getAllClients() throws ClassNotFoundException, SQLException {
         return clientDAO.getAllClients();
     }
+    
+    
+    public int getTotalClientsCount() throws ClassNotFoundException, SQLException {
+        List<Client> clients = getAllClients();
+        return clients.size();
+    }
 }

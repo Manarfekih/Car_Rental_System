@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.collections.FXCollections?>
+
+<VBox xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="controller.RentalFormController"
+      spacing="15" 
+      alignment="TOP_LEFT" 
+      style="-fx-padding: 20;"
+      prefWidth="500" prefHeight="450">
+
+    <Label text="Rental Form"
+           style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+
+    <GridPane hgap="10" vgap="10">
+        <columnConstraints>
+            <ColumnConstraints minWidth="120"/>
+            <ColumnConstraints minWidth="250"/>
+        </columnConstraints>
+
+        <!-- Client -->
+        <Label text="Client:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <TextField fx:id="clientField" promptText="Enter client name" 
+                   GridPane.rowIndex="0" GridPane.columnIndex="1" prefWidth="250"/>
+        
+        <!-- Car -->
+        <Label text="Car:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <TextField fx:id="carField" promptText="Enter car brand and model" 
+                   GridPane.rowIndex="1" GridPane.columnIndex="1" prefWidth="250"/>
+        
+        <!-- Start Date -->
+        <Label text="Start Date:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+        <DatePicker fx:id="startDatePicker" 
+                   GridPane.rowIndex="2" GridPane.columnIndex="1" prefWidth="250"/>
+        
+        <!-- End Date -->
+        <Label text="End Date:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+        <DatePicker fx:id="endDatePicker" 
+                   GridPane.rowIndex="3" GridPane.columnIndex="1" prefWidth="250"/>
+        
+        <!-- Price -->
+        <Label text="Total Price:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+        <TextField fx:id="priceField" promptText="Enter total price" 
+                   GridPane.rowIndex="4" GridPane.columnIndex="1" prefWidth="250"/>
+        
+        <!-- Status -->
+        <Label text="Status:" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+        <ComboBox fx:id="statusCombo" GridPane.rowIndex="5" GridPane.columnIndex="1" 
+                  prefWidth="250"/>
+    </GridPane>
+
+    <!-- Buttons -->
+    <HBox spacing="15" alignment="CENTER_LEFT">
+        <Button fx:id="saveBtn" text="Save" 
+                style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-weight: bold; -fx-min-width: 80;"/>
+        <Button fx:id="cancelBtn" text="Cancel" 
+                style="-fx-background-color: #e74c12; -fx-text-fill: white; -fx-font-weight: bold; -fx-min-width: 80;"/>
+        <Label fx:id="statusLabel" style="-fx-text-fill: red; -fx-padding: 0 0 0 20;"/>
+    </HBox>
+
+</VBox>

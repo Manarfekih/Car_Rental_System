@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controller.ClientListController"
+            prefWidth="900" prefHeight="600">
+
+    <!-- Top controls -->
+    <top>
+        <HBox spacing="10" style="-fx-padding: 10;">
+            <Button fx:id="btnAdd" text="Add Client"/>
+            <Button fx:id="btnEdit" text="Edit Client"/>
+            <Button fx:id="btnDelete" text="Delete Client"/>
+            <TextField fx:id="txtSearch" promptText="Search by name/email" HBox.hgrow="ALWAYS"/>
+            <Button fx:id="btnSearch" text="Search"/>
+        </HBox>
+    </top>
+
+    <!-- TableView -->
+    <center>
+        <TableView fx:id="tableClients" prefHeight="500">
+            <columns>
+                <TableColumn fx:id="colId" text="ID"/>
+                <TableColumn fx:id="colName" text="Name"/>
+                <TableColumn fx:id="colEmail" text="Email"/>
+                <TableColumn fx:id="colPhone" text="Phone"/>
+                <TableColumn fx:id="colLicense" text="License Number"/>
+                <TableColumn fx:id="colAddress" text="Address"/>
+            </columns>
+        </TableView>
+    </center>
+</BorderPane>

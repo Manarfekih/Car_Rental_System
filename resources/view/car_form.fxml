@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="controller.RentalFormController"
+      spacing="15" 
+      alignment="CENTER_LEFT" 
+      style="-fx-padding: 20;"
+      prefWidth="500" prefHeight="450">
+
+    <Label text="Rental Form"
+           style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+
+    <!-- Client -->
+    <HBox spacing="10">
+        <Label text="Client:" prefWidth="120"/>
+        <TextField fx:id="clientField" promptText="Enter client name" prefWidth="250"/>
+    </HBox>
+
+    <!-- Car -->
+    <HBox spacing="10">
+        <Label text="Car:" prefWidth="120"/>
+        <TextField fx:id="carField" promptText="Enter car model" prefWidth="250"/>
+    </HBox>
+
+    <!-- Start Date -->
+    <HBox spacing="10">
+        <Label text="Start Date:" prefWidth="120"/>
+        <DatePicker fx:id="startDatePicker" prefWidth="250"/>
+    </HBox>
+
+    <!-- End Date -->
+    <HBox spacing="10">
+        <Label text="End Date:" prefWidth="120"/>
+        <DatePicker fx:id="endDatePicker" prefWidth="250"/>
+    </HBox>
+
+    <!-- Price -->
+    <HBox spacing="10">
+        <Label text="Price:" prefWidth="120"/>
+        <TextField fx:id="priceField" promptText="Enter total price" prefWidth="250"/>
+    </HBox>
+
+    <!-- Buttons -->
+    <HBox spacing="15" alignment="CENTER_LEFT">
+        <Button fx:id="saveBtn" text="Save" 
+                style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-weight: bold; -fx-min-width: 80;"/>
+        <Button fx:id="cancelBtn" text="Cancel" 
+                style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-min-width: 80;"/>
+    </HBox>
+
+</VBox>

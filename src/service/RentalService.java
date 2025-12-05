@@ -1,8 +1,7 @@
 package service;
 
-import dao_interfaces.IRentalDAO;
-
 import dao.RentalDAO;
+import dao_interfaces.IRentalDAO;
 import model.Rental;
 
 import java.sql.SQLException;
@@ -16,19 +15,48 @@ public class RentalService {
         this.rentalDAO = new RentalDAO();
     }
 
-    public boolean createRental(Rental rental) throws ClassNotFoundException, SQLException {
+    // ---------------- ADD RENTAL ----------------
+    public boolean addRental(Rental rental) throws SQLException, ClassNotFoundException {
         return rentalDAO.createRental(rental);
     }
 
-    public boolean returnCar(int rentalId) throws ClassNotFoundException, SQLException {
+    // ---------------- UPDATE RENTAL ----------------
+    public boolean updateRental(Rental rental) throws SQLException, ClassNotFoundException {
+        return rentalDAO.updateRental(rental);
+    }
+
+    // ---------------- DELETE RENTAL ----------------
+    public boolean deleteRental(int rentalId) throws SQLException, ClassNotFoundException {
+        return rentalDAO.deleteRental(rentalId);
+    }
+
+    // ---------------- RETURN CAR ----------------
+    public boolean returnCar(int rentalId) throws SQLException, ClassNotFoundException {
         return rentalDAO.returnCar(rentalId);
     }
 
-    public Rental getRentalById(int rentalId) throws ClassNotFoundException, SQLException {
+    // ---------------- GET ALL RENTALS ----------------
+    public List<Rental> getAllRentals() throws SQLException, ClassNotFoundException {
+        return rentalDAO.getAllRentals();
+    }
+
+    // ---------------- GET RENTAL BY ID ----------------
+    public Rental getRentalById(int rentalId) throws SQLException, ClassNotFoundException {
         return rentalDAO.getRentalById(rentalId);
     }
 
-    public List<Rental> getAllRentals() throws ClassNotFoundException, SQLException {
-        return rentalDAO.getAllRentals();
+    // ---------------- SEARCH RENTALS ----------------
+    public List<Rental> searchRental(String keyword) throws SQLException, ClassNotFoundException {
+        return rentalDAO.searchRental(keyword);
     }
+
+    // ---------------- CHECK IF RENTAL EXISTS ----------------
+    public boolean rentalExists(int rentalId) throws SQLException, ClassNotFoundException {
+        return rentalDAO.rentalExists(rentalId);
+    }
+ // ---------------- ACTIVE RENTALS COUNT ----------------
+    public int getActiveRentalsCount() throws SQLException, ClassNotFoundException {
+        return rentalDAO.getActiveRentalsCount();
+    }
+
 }

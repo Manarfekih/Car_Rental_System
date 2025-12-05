@@ -113,4 +113,82 @@ public class CarDAO implements ICarDAO {
 
         return cars;
     }
+    
+    
+    
+	
+	  
+    
+    
+    //search by bran,model,status,id,category
+    @Override
+    public List<Car> searchCars(String keyword) throws SQLException, ClassNotFoundException {
+        List<Car> cars = new ArrayList<>();
+        String sql = "SELECT * FROM cars WHERE " +
+                     "brand LIKE ? OR " +
+                     "status LIKE ? OR " +
+                     "model LIKE ? OR " +
+                     "category LIKE ? OR " +
+                     "CAST(car_id AS CHAR) LIKE ?";
+        
+        try (Connection conn = DatabaseManager.getSingleton().getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            String searchPattern = "%" + keyword + "%";
+            stmt.setString(1, searchPattern);
+            stmt.setString(1, searchPattern);
+            stmt.setString(2, searchPattern);
+            stmt.setString(3, searchPattern);
+            stmt.setString(4, searchPattern);
+            
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    cars.add(new Car(
+                        rs.getInt("car_id"),
+                        rs.getString("brand"),
+                        rs.getString("model"),
+                        rs.getInt("year"),
+                        rs.getString("category"),
+                        rs.getDouble("price_per_day"),
+                        rs.getString("status")
+                    ));
+                }
+            }
+        }
+        return cars;
+    }
+    
+    
+    
+    //  Get available cars only
+    @Override
+    public List<Car> getAvailableCars() throws SQLException, ClassNotFoundException {
+        List<Car> cars = new ArrayList<>();
+        String sql = "SELECT * FROM cars WHERE status = 'Available'";
+        
+        try (Connection conn = DatabaseManager.getSingleton().getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            
+            while (rs.next()) {
+                cars.add(new Car(
+                    rs.getInt("car_id"),
+                    rs.getString("brand"),
+                    rs.getString("model"),
+                    rs.getInt("year"),
+                    rs.getString("category"),
+                    rs.getDouble("price_per_day"),
+                    rs.getString("status")
+                ));
+            }
+        }
+        return cars;
+    }
+
+	
+    
+    
+
+    
+    
 }
