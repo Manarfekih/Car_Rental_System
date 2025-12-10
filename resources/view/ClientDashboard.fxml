@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controller.ClientDashboardController"
+            prefWidth="1000" prefHeight="700">
+
+    <!-- Sidebar -->
+    <left>
+        <VBox spacing="15" style="-fx-background-color: #1E352F; -fx-padding: 20;">
+            <Label text="Client Dashboard"
+                   style="-fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold;"/>
+            <Separator/>
+            <Label fx:id="lblWelcome" 
+                   style="-fx-text-fill: #ecf0f1;"/>
+            <Separator/>
+            <Label text="MENU" style="-fx-text-fill: #bdc3c7; -fx-font-weight: bold;"/>
+            <Button fx:id="btnAvailableCars" text="🚗 Available Cars" maxWidth="200"/>
+            <Button fx:id="btnMyRentals" text="📄 My Rentals" maxWidth="200"/>
+            <Button fx:id="btnProfile" text="👤 Profile" maxWidth="200"/>
+            <VBox VBox.vgrow="ALWAYS"/>
+        
+        
+        
+	        <VBox VBox.vgrow="ALWAYS"/>    
+	            <Button fx:id="btnLogout" text="🚪 Logout" maxWidth="200"
+	                    style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10; -fx-background-radius: 5;"/>
+    </VBox>
+    </left>
+
+    <!-- Main content area -->
+    <center>
+        <StackPane fx:id="contentArea" style="-fx-background-color: #ecf0f1;" />
+    </center>
+
+</BorderPane>

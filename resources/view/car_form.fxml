@@ -6,44 +6,54 @@
 
 <VBox xmlns="http://javafx.com/javafx/21"
       xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="controller.RentalFormController"
+      fx:controller="controller.CarFormController"
       spacing="15" 
       alignment="CENTER_LEFT" 
       style="-fx-padding: 20;"
-      prefWidth="500" prefHeight="450">
+      prefWidth="500" 
+      prefHeight="450">
 
-    <Label text="Rental Form"
+    <Label fx:id="titleLabel" text="Add Car"
            style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
 
-    <!-- Client -->
+    <!-- Car Brand -->
     <HBox spacing="10">
-        <Label text="Client:" prefWidth="120"/>
-        <TextField fx:id="clientField" promptText="Enter client name" prefWidth="250"/>
+        <Label text="Brand:" prefWidth="120"/>
+        <TextField fx:id="brandField" promptText="Enter car brand" prefWidth="250"/>
     </HBox>
 
-    <!-- Car -->
+    <!-- Car Model -->
     <HBox spacing="10">
-        <Label text="Car:" prefWidth="120"/>
-        <TextField fx:id="carField" promptText="Enter car model" prefWidth="250"/>
+        <Label text="Model:" prefWidth="120"/>
+        <TextField fx:id="modelField" promptText="Enter car model" prefWidth="250"/>
     </HBox>
 
-    <!-- Start Date -->
+    <!-- Year -->
     <HBox spacing="10">
-        <Label text="Start Date:" prefWidth="120"/>
-        <DatePicker fx:id="startDatePicker" prefWidth="250"/>
+        <Label text="Year:" prefWidth="120"/>
+        <TextField fx:id="yearField" promptText="Enter year" prefWidth="250"/>
     </HBox>
 
-    <!-- End Date -->
+    <!-- Category -->
     <HBox spacing="10">
-        <Label text="End Date:" prefWidth="120"/>
-        <DatePicker fx:id="endDatePicker" prefWidth="250"/>
+        <Label text="Category:" prefWidth="120"/>
+        <TextField fx:id="categoryField" promptText="Enter category" prefWidth="250"/>
     </HBox>
 
-    <!-- Price -->
+    <!-- Price per Day -->
     <HBox spacing="10">
-        <Label text="Price:" prefWidth="120"/>
-        <TextField fx:id="priceField" promptText="Enter total price" prefWidth="250"/>
+        <Label text="Price/Day:" prefWidth="120"/>
+        <TextField fx:id="priceField" promptText="Enter price per day" prefWidth="250"/>
     </HBox>
+
+    <!-- Status -->
+    <HBox spacing="10">
+        <Label text="Status:" prefWidth="120"/>
+        <ComboBox fx:id="statusCombo" prefWidth="250"/>
+    </HBox>
+
+    <!-- Status Label for errors -->
+    <Label fx:id="statusLabel" style="-fx-text-fill: red;"/>
 
     <!-- Buttons -->
     <HBox spacing="15" alignment="CENTER_LEFT">

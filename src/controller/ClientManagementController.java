@@ -1,5 +1,7 @@
 package controller;
 
+import model.Client;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -14,7 +16,11 @@ import model.Client;
 import service.ClientService;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class ClientManagementController {
 
@@ -33,6 +39,8 @@ public class ClientManagementController {
     @FXML private Button btnEdit;
     @FXML private Button btnDelete;
     @FXML private Label lblStatus;
+    @FXML private ComboBox<String> sortCombo;
+
 
     private final ClientService clientService = new ClientService();
     private final ObservableList<Client> clientList = FXCollections.observableArrayList();
@@ -59,20 +67,59 @@ public class ClientManagementController {
         btnDelete.setOnAction(e -> { try { deleteSelectedClient(); } catch (Exception ex) { showError("Delete", ex.getMessage()); } });
 
         loadClients();
+        setupSortCombo();
+
     }
 
-    private String nullSafe(String s) { return s == null ? "" : s; }
     
    
+    private void setupSortCombo() {
+        sortCombo.getItems().addAll("Name", "Email", "License");
+        sortCombo.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> sortClients(newVal));
+        sortCombo.getSelectionModel().selectFirst();
+    }
+
+    private void sortClients(String criteria) {
+        if (clientList.isEmpty()) return;
+
+        switch(criteria) {
+            case "Email":
+                FXCollections.sort(clientList, Client.SORT_BY_EMAIL);
+                break;
+            case "License":
+                FXCollections.sort(clientList, Client.SORT_BY_LICENSE);
+                break;
+            default:
+                FXCollections.sort(clientList, Comparator.comparing(Client::getName, String.CASE_INSENSITIVE_ORDER));
+        }
+
+        lblStatus.setText("Sorted by " + criteria);
+    }
+
+
+    private String nullSafe(String s) { return s == null ? "" : s; }
 
     
-    
     public void loadClients() throws Exception {
-    	List<Client> all = clientService.getAllClients();
-    	 clientList.setAll(all);
-    	 clientsTable.setItems(clientList);
-        lblStatus.setText("Loaded " + all.size() + "Clients");
+        List<Client> all = clientService.getAllClients();
+
+        // Prevent  duplicates based on email
+        Set<String> emails = new HashSet<>();
+        List<Client> unique = new ArrayList<>();
+        //so the client will be added only if he has uniqye email
+        for (Client c : all) {
+            if (emails.add(c.getEmail())) { 
+                unique.add(c);
+            }
+        }
+
+        // Update TableView
+        clientList.setAll(unique);
+        clientsTable.setItems(clientList);
+
+        lblStatus.setText("Loaded " + unique.size() + " clients");
     }
+
     
     
 
@@ -81,9 +128,10 @@ public class ClientManagementController {
     public void searchClients() throws Exception {
         String kw = searchField.getText() == null ? "" : searchField.getText().trim().toLowerCase();
         if (kw.isEmpty()) { clientsTable.setItems(clientList); return; }
-
+        
+        
+         //instaed of streams 
         List<Client> filtered = new ArrayList<>();
-        // no streams — use simple loop
         for (Client c : clientList) {
             if ((c.getName() != null && c.getName().toLowerCase().contains(kw))
              || (c.getEmail() != null && c.getEmail().toLowerCase().contains(kw))

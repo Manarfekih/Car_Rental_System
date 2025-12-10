@@ -24,6 +24,10 @@ public class RentalManagementController {
     @FXML private TableColumn<Rental, String> colEndDate;
     @FXML private TableColumn<Rental, Double> colTotalPrice;
     @FXML private TableColumn<Rental, String> colStatus;
+    
+    @FXML private ComboBox<String> sortComboBox;
+    @FXML private Button btnSort;
+
 
     @FXML private TextField searchField;
     @FXML private Button btnSearch, btnRefresh, btnAdd, btnEdit, btnDelete, btnReturn;
@@ -36,6 +40,15 @@ public class RentalManagementController {
         setupColumns();
         setupButtonActions();
         loadRentals();
+        
+        
+        sortComboBox.getItems().addAll("startdate", "enddate", "price", "client");
+        btnSort.setOnAction(e -> {
+            String criteria = sortComboBox.getValue();
+            if (criteria != null) {
+                sortRentalsBy(criteria);
+            }
+        });
     }
 
     private void setupColumns() {
@@ -54,6 +67,24 @@ public class RentalManagementController {
         });
         colStatus.setCellValueFactory(c -> new ReadOnlyStringWrapper(c.getValue().getStatus()));
     }
+    
+    
+    @FXML
+    private void sortRentalsBy(String criteria) {
+        List<Rental> rentals = rentalsTable.getItems();
+        if (rentals == null || rentals.isEmpty()) return;
+
+        switch (criteria.toLowerCase()) {
+            case "startdate" -> rentals.sort(Rental.SORT_BY_START_DATE);
+            case "enddate" -> rentals.sort(Rental.SORT_BY_END_DATE);
+            case "price" -> rentals.sort(Rental.SORT_BY_TOTAL_PRICE);
+            case "client" -> rentals.sort(Rental.SORT_BY_CLIENT_NAME);
+            default -> rentals.sort(null); // default natural order (rentalId)
+        }
+
+        rentalsTable.setItems(FXCollections.observableArrayList(rentals));
+    }
+
 
     private void setupButtonActions() {
         btnSearch.setOnAction(e -> runWithThrows(this::handleSearch));

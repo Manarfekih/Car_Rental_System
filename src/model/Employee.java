@@ -1,6 +1,8 @@
 package model;
 
-public class Employee {
+import java.util.Comparator;
+
+public class Employee  implements Comparable<Employee> {
     private int userId;
     private String username;
     private String email;
@@ -24,4 +26,17 @@ public class Employee {
     public void setUsername(String username) { this.username = username; }
     public void setEmail(String email) { this.email = email; }
     public void setPassword(String password) { this.password = password; }
+    
+    
+    
+    
+    @Override
+    public int compareTo(Employee other) {
+        if (other == null) return 1;
+        return this.username.compareToIgnoreCase(other.username);
+    }
+    
+    
+   
+
 }

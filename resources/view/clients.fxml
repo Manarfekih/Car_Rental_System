@@ -40,6 +40,10 @@
 
                 <Button fx:id="btnRefresh" text="Refresh"
                         style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-weight: bold;" />
+                        
+                        
+                         <Label text="📈 Sort By:" style="-fx-font-weight: bold;" />
+                <ComboBox fx:id="sortCombo" promptText="Sort By"  style="-fx-background-color: #9b59b6; -fx-text-fill: white; -fx-font-weight: bold;" />
             </HBox>
 
 

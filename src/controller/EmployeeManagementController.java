@@ -28,8 +28,10 @@ public class EmployeeManagementController {
     @FXML private Button btnRefresh;
     @FXML private Button btnAdd;
     @FXML private Button btnEdit;
-    @FXML private Button btnDelete;
+    @FXML private Button btnDelete,btnSort;
     @FXML private Label lblStatus;
+    @FXML private ComboBox<String> sortCombo; 
+
 
     private final EmployeeService employeeService = new EmployeeService();
     private final ObservableList<Employee> employeeList = FXCollections.observableArrayList();
@@ -60,9 +62,21 @@ public class EmployeeManagementController {
         btnDelete.setOnAction(e -> {
             try { deleteSelectedEmployee(); } catch (Exception ex) { showError("Delete Employee", ex.getMessage()); }
         });
+        
+        btnSort.setOnAction(e -> sortEmployeesByName());
+
 
         loadEmployees();
+
     }
+    
+    
+    @FXML
+    private void sortEmployeesByName() {
+        FXCollections.sort(employeeList);  // Employee.compareTo() sorts by username
+        employeesTable.setItems(FXCollections.observableArrayList(employeeList));
+    }
+
 
     private String nullSafe(String s) { return s == null ? "" : s; }
 

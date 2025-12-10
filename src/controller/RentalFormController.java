@@ -79,6 +79,8 @@ public class RentalFormController {
     private void validateAndSave() throws Exception {
         statusLabel.setText("");
         
+        debugAllCars();
+        
         // Get values from form
         String clientName = clientField.getText().trim();
         String carInfo = carField.getText().trim();
@@ -124,7 +126,7 @@ public class RentalFormController {
             if (!editMode) {
                 // Add new rental
                 Rental rental = new Rental(0, client, car, startDate, endDate, price, status);
-                boolean success = rentalService.createRental(rental);
+                boolean success = rentalService.addRental(rental);
                 if (success) {
                     saved = true;
                     close();
@@ -167,13 +169,54 @@ public class RentalFormController {
 
     private Car findCarByInfo(String carInfo) throws Exception {
         List<Car> cars = carService.getAllCars();
+        
+        System.out.println("DEBUG: Searching for car: '" + carInfo + "'");
+        System.out.println("DEBUG: Total cars in database: " + cars.size());
+        
+        // Trim and normalize the search input
+        String searchTerm = carInfo.trim().toLowerCase();
+        
+        // Try different search patterns
         for (Car c : cars) {
-            String displayName = c.getBrand() + " " + c.getModel();
-            if (displayName.equalsIgnoreCase(carInfo)) {
+            String brand = c.getBrand() != null ? c.getBrand().trim().toLowerCase() : "";
+            String model = c.getModel() != null ? c.getModel().trim().toLowerCase() : "";
+            
+            // Create different possible display formats
+            String fullName = brand + " " + model;
+            String reverseName = model + " " + brand;
+            String brandOnly = brand;
+            String modelOnly = model;
+            
+            System.out.println("DEBUG: Checking car - Brand: '" + brand + "', Model: '" + model + "'");
+            
+            // Try multiple matching strategies
+            if (searchTerm.equals(fullName) || 
+                searchTerm.equals(reverseName) ||
+                searchTerm.equals(brandOnly) ||
+                searchTerm.equals(modelOnly) ||
+                fullName.contains(searchTerm) ||
+                brand.equals(searchTerm) ||
+                model.equals(searchTerm)) {
+                
+                System.out.println("DEBUG: Found match - Car ID: " + c.getCarId() + 
+                                 ", Brand: " + c.getBrand() + ", Model: " + c.getModel());
                 return c;
             }
         }
+        
+        System.out.println("DEBUG: No car found for: " + carInfo);
         return null;
+    }
+    private void debugAllCars() throws Exception {
+        List<Car> cars = carService.getAllCars();
+        System.out.println("=== ALL CARS IN DATABASE ===");
+        for (Car c : cars) {
+            System.out.println("ID: " + c.getCarId() + 
+                             " | Brand: '" + c.getBrand() + "'" + 
+                             " | Model: '" + c.getModel() + "'" +
+                             " | Status: " + c.getStatus());
+        }
+        System.out.println("Total cars: " + cars.size());
     }
 
     private void close() {

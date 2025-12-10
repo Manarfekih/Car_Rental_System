@@ -1,6 +1,7 @@
 package model;
 
 import java.time.LocalDate;
+import java.util.Comparator;
 
 public class Rental {
 
@@ -95,4 +96,15 @@ public class Rental {
                 ", status='" + status + '\'' +
                 '}';
     }
+    
+    ///---------------Compartors----------------
+    
+    public static Comparator<Rental> SORT_BY_START_DATE = Comparator.comparing(Rental::getStartDate);
+    public static Comparator<Rental> SORT_BY_END_DATE = Comparator.comparing(Rental::getEndDate);
+    public static Comparator<Rental> SORT_BY_TOTAL_PRICE = Comparator.comparingDouble(Rental::getTotalPrice);
+    public static Comparator<Rental> SORT_BY_CLIENT_NAME = 
+        Comparator.comparing(r -> r.getClient().getName());
+  
+    
+  
 }

@@ -135,11 +135,12 @@ public class CarDAO implements ICarDAO {
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             
             String searchPattern = "%" + keyword + "%";
-            stmt.setString(1, searchPattern);
-            stmt.setString(1, searchPattern);
-            stmt.setString(2, searchPattern);
-            stmt.setString(3, searchPattern);
-            stmt.setString(4, searchPattern);
+            // FIXED: Set each parameter correctly
+            stmt.setString(1, searchPattern);  // brand
+            stmt.setString(2, searchPattern);  // status  
+            stmt.setString(3, searchPattern);  // model
+            stmt.setString(4, searchPattern);  // category
+            stmt.setString(5, searchPattern);  // car_id
             
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
@@ -159,12 +160,11 @@ public class CarDAO implements ICarDAO {
     }
     
     
-    
     //  Get available cars only
     @Override
     public List<Car> getAvailableCars() throws SQLException, ClassNotFoundException {
         List<Car> cars = new ArrayList<>();
-        String sql = "SELECT * FROM cars WHERE status = 'Available'";
+        String sql = "SELECT * FROM cars WHERE status = 'available'"; // Lowercase 'available'
         
         try (Connection conn = DatabaseManager.getSingleton().getConnection();
              Statement stmt = conn.createStatement();

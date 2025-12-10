@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="controller.ClientMyRentalsController"
+      spacing="15" 
+      style="-fx-padding: 20;">
+    
+    <Label text="My Rentals" 
+           style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+    
+    <Label text="Your rental history:" style="-fx-font-size: 14px;"/>
+    
+    <ScrollPane fitToWidth="true" style="-fx-background-color: transparent;">
+        <VBox fx:id="rentalsListContainer" spacing="15"/>
+    </ScrollPane>
+</VBox>

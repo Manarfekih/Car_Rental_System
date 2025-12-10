@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="controller.ClientProfileController"
+      fx:id="profileContainer"
+      spacing="15" 
+      style="-fx-padding: 20;">
+    
+    <Label text="My Profile" 
+           style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+    
+    <Label fx:id="lblUsername" style="-fx-font-weight: bold;"/>
+    <Label fx:id="lblRole"/>
+    
+    <Separator/>
+    
+    <GridPane hgap="10" vgap="10">
+        <Label text="Full Name:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <TextField fx:id="txtName" GridPane.rowIndex="0" GridPane.columnIndex="1" 
+                   promptText="Enter your full name"/>
+        
+        <Label text="Email:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <TextField fx:id="txtEmail" GridPane.rowIndex="1" GridPane.columnIndex="1" 
+                   promptText="Enter your email"/>
+        
+        <Label text="Phone:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+        <TextField fx:id="txtPhone" GridPane.rowIndex="2" GridPane.columnIndex="1" 
+                   promptText="Enter your phone number"/>
+        
+        <Label text="License Number:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+        <TextField fx:id="txtLicense" GridPane.rowIndex="3" GridPane.columnIndex="1" 
+                   promptText="Enter driver license number"/>
+        
+        <Label text="Address:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+        <TextField fx:id="txtAddress" GridPane.rowIndex="4" GridPane.columnIndex="1" 
+                   promptText="Enter your address"/>
+    </GridPane>
+    
+    <Button fx:id="btnUpdate" text="Update Profile" 
+            style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold;"
+            onAction="#handleUpdate"/>
+</VBox>

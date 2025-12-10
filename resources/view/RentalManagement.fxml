@@ -62,6 +62,10 @@
                         style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 15;" />
                 <Button fx:id="btnReturn" text="Return Car"
                         style="-fx-background-color: #f39c12; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 15;" />
+                        
+                         <Label text="📈 Sort By"/>
+    <ComboBox fx:id="sortComboBox" promptText="Select criteria"/>
+    <Button text="Sort" fx:id="btnSort" style="-fx-background-color: #9b59b6; -fx-text-fill: white; -fx-font-weight: bold;"/>
             </HBox>
         </VBox>
     </center>

@@ -75,52 +75,61 @@ public class LoginController {
             messageLabel.setText("Can't open registration form.");
         }
     }
-
+    
     private void openMainWindow(User user) {
         try {
             FXMLLoader loader;
             Parent root;
-            
-            if (user.getRole().equalsIgnoreCase("admin")) {
-                // Load Admin Dashboard
-                loader = new FXMLLoader(getClass().getResource("/view/AdminDashboard.fxml"));
-                root = loader.load();
-                
-                AdminDashboardController controller = loader.getController();
-                controller.setLoggedUser(user);
-                
-                Stage stage = new Stage();
-                stage.setTitle("Admin Dashboard");
-                stage.setScene(new Scene(root, 800, 600)); // Fixed size, NOT maximized
-                stage.show();
-                
-            } else {
-                // Load Main for others
-                loader = new FXMLLoader(getClass().getResource("/view/Main.fxml"));
-                root = loader.load();
-                
-                MainController controller = loader.getController();
-                controller.setLoggedUser(user);
-                
-                Stage stage = new Stage();
-                stage.setTitle("Car Rental System");
-                stage.setScene(new Scene(root, 800, 600));
-                stage.show();
+            Stage stage = new Stage();
+
+            String role = user.getRole().toLowerCase();
+
+            switch (role) {
+                case "admin":
+                    loader = new FXMLLoader(getClass().getResource("/view/AdminDashboard.fxml"));
+                    root = loader.load();
+                    AdminDashboardController adminController = loader.getController();
+                    adminController.setLoggedUser(user);
+                    stage.setTitle("Admin Dashboard");
+                    break;
+
+                case "client":
+                    loader = new FXMLLoader(getClass().getResource("/view/ClientDashboard.fxml"));
+                    root = loader.load();
+                    ClientDashboardController clientController = loader.getController();
+                    clientController.setLoggedUser(user);
+                    stage.setTitle("Client Dashboard");
+                    break;
+
+                case "employee":
+                    loader = new FXMLLoader(getClass().getResource("/view/EmployeeDashboard.fxml"));
+                    root = loader.load();
+                    stage.setTitle("Employee Dashboard");
+                    break;
+
+                default:
+                    messageLabel.setText("Unknown role: " + user.getRole());
+                    return;
             }
-            
+
+            stage.setScene(new Scene(root, 1000, 700));
+            stage.show();
+
             // Close login window
             Stage loginStage = (Stage) usernameField.getScene().getWindow();
             loginStage.close();
-            
+
         } catch (Exception e) {
             e.printStackTrace();
             messageLabel.setText("Error: " + e.getMessage());
-            
-            // Show detailed error
+
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Load Error");
             alert.setContentText("Cannot load window: " + e.getMessage());
             alert.showAndWait();
         }
     }
+
+
+   
 }

@@ -27,7 +27,6 @@ public class CarFormController {
 
     @FXML
     public void initialize() {
-        // Initialize status combo box
         statusCombo.getItems().addAll("available", "rented", "maintenance");
         statusCombo.setValue("available");
         
@@ -36,7 +35,7 @@ public class CarFormController {
             try {
                 save();
             } catch (Exception ex) {
-                // Convert to RuntimeException to avoid changing method signature
+                
                 throw new RuntimeException("Error saving car: " + ex.getMessage(), ex);
             }
         });
@@ -63,12 +62,10 @@ public class CarFormController {
         return saved; 
     }
 
-    // Method now throws Exception
     public void save() throws Exception {
         validateAndSave();
     }
 
-    // Private helper that does the actual work
     private void validateAndSave() throws Exception {
         statusLabel.setText("");
         
@@ -84,7 +81,7 @@ public class CarFormController {
         if (brand.isEmpty() || model.isEmpty() || yearStr.isEmpty() || 
             category.isEmpty() || priceStr.isEmpty()) {
             statusLabel.setText("All fields are required.");
-            return; // This is validation, not an exception
+            return; 
         }
 
         try {

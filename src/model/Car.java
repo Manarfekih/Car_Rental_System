@@ -1,6 +1,8 @@
 package model;
 
-public class Car {
+import java.util.Comparator;
+
+public class Car implements Comparable<Car>   {
 	
 	private int carId;
     private String brand;
@@ -82,13 +84,30 @@ public class Car {
 
 	
 	//ToString method
-	@Override
-	public String toString() {
-		return "Car [carId=" + carId + ", brand=" + brand + ", model=" + model + ", year=" + year + ", category="
-				+ category + ", pricePerDay=" + pricePerDay + ", status=" + status + "]";
-	}
+	 @Override
+	    public String toString() {
+	        return brand + " " + model; 
+	    }
+	 
+	 
+	 //ordering by brand then model
+	 @Override
+	    public int compareTo(Car other) {
+	        int b = this.brand.compareToIgnoreCase(other.brand);
+	        if (b != 0) return b;
+	        return this.model.compareToIgnoreCase(other.model);
+	    }
 
-	
+	// Static Comparator 
+	    public static Comparator<Car> SORT_BY_PRICE_ASC = 
+	        Comparator.comparingDouble(Car::getPricePerDay);
+	    
+	    
+	    
+	    public static Comparator<Car> SORT_BY_YEAR_DESC = 
+	        Comparator.comparingInt(Car::getYear).reversed();
+	    
+	   
 	
 	
 	

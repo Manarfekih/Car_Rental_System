@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+
+<VBox spacing="15" style="-fx-padding: 20;">
+    <Label text="Available Cars"
+           style="-fx-font-size: 22; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+
+    <TableView fx:id="tblCars" prefHeight="500">
+        <columns>
+            <TableColumn text="Brand" prefWidth="150"/>
+            <TableColumn text="Model" prefWidth="150"/>
+            <TableColumn text="Year" prefWidth="100"/>
+            <TableColumn text="Category" prefWidth="120"/>
+            <TableColumn text="Price/Day" prefWidth="120"/>
+        </columns>
+    </TableView>
+
+    <Button fx:id="btnRent" text="Rent Selected Car"
+            style="-fx-background-color: #27ae60; -fx-text-fill: white; 
+                -fx-font-weight: bold; -fx-padding: 10; -fx-background-radius: 5;"/>
+</VBox>

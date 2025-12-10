@@ -40,4 +40,14 @@ public class ClientService {
         List<Client> clients = getAllClients();
         return clients.size();
     }
+    
+    
+    
+    public Client getClientByUserId(int userId) throws ClassNotFoundException, SQLException {
+        return clientDAO.getClientByUserId(userId);
+    }
+
+    public Client getClientByEmail(String email) throws ClassNotFoundException, SQLException {
+        return clientDAO.getClientByEmail(email);
+    }
 }

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="controller.ClientAvailableCarsController"
+      spacing="15" 
+      style="-fx-padding: 20;">
+    
+    <Label text="Available Cars" 
+           style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+    
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="Rental Period:" style="-fx-font-weight: bold;"/>
+        <DatePicker fx:id="startDatePicker" promptText="Start Date"/>
+        <Label text="to"/>
+        <DatePicker fx:id="endDatePicker" promptText="End Date"/>
+    </HBox>
+    
+    <Separator/>
+    
+    <Label text="Select a car to rent:" style="-fx-font-size: 14px;"/>
+    
+    <ScrollPane fitToWidth="true">
+        <VBox fx:id="carsListContainer" spacing="10"/>
+    </ScrollPane>
+</VBox>

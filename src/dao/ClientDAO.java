@@ -137,4 +137,75 @@ public class ClientDAO implements IClientDAO {
 
         return clients;
     }
+    
+    
+    
+ // Add to ClientDAO.java
+    public Client getClientByUserId(int userId) throws SQLException, ClassNotFoundException {
+        String sql = "SELECT c.*, u.username, u.email AS user_email, u.role " +
+                     "FROM clients c JOIN users u ON c.user_id = u.user_id " +
+                     "WHERE u.user_id=?";
+        
+        try (Connection conn = DatabaseManager.getSingleton().getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            stmt.setInt(1, userId);
+            
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    User user = new User(
+                        rs.getInt("user_id"),
+                        rs.getString("username"),
+                        rs.getString("user_email"),
+                        rs.getString("role")
+                    );
+                    
+                    return new Client(
+                        rs.getInt("client_id"),
+                        user,
+                        rs.getString("name"),
+                        rs.getString("email"),
+                        rs.getString("phone"),
+                        rs.getString("license_number"),
+                        rs.getString("address")
+                    );
+                }
+            }
+        }
+        return null;
+    }
+
+    public Client getClientByEmail(String email) throws SQLException, ClassNotFoundException {
+        String sql = "SELECT c.*, u.username, u.email AS user_email, u.role " +
+                     "FROM clients c JOIN users u ON c.user_id = u.user_id " +
+                     "WHERE c.email=?";
+        
+        try (Connection conn = DatabaseManager.getSingleton().getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            stmt.setString(1, email);
+            
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    User user = new User(
+                        rs.getInt("user_id"),
+                        rs.getString("username"),
+                        rs.getString("user_email"),
+                        rs.getString("role")
+                    );
+                    
+                    return new Client(
+                        rs.getInt("client_id"),
+                        user,
+                        rs.getString("name"),
+                        rs.getString("email"),
+                        rs.getString("phone"),
+                        rs.getString("license_number"),
+                        rs.getString("address")
+                    );
+                }
+            }
+        }
+        return null;
+    }
 }

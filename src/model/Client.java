@@ -1,6 +1,8 @@
 package model;
 
-public class Client {
+import java.util.Comparator;
+
+public class Client implements Comparable<Client> {
 
     private int clientId;
     private User user; 
@@ -83,14 +85,18 @@ public class Client {
 
     @Override
     public String toString() {
-        return "Client{" +
-                "clientId=" + clientId +
-                ", user=" + (user != null ? user.getUsername() : "null") +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", phone='" + phone + '\'' +
-                ", licenseNumber='" + licenseNumber + '\'' +
-                ", address='" + address + '\'' +
-                '}';
+        return name; 
     }
+    
+    
+    @Override
+    public int compareTo(Client other) {
+        if (other == null) return 1;
+        return this.name.compareToIgnoreCase(other.name);
+    }
+    
+    
+    public static Comparator<Client> SORT_BY_EMAIL = Comparator.comparing(Client::getEmail, String.CASE_INSENSITIVE_ORDER);
+    public static Comparator<Client> SORT_BY_LICENSE = Comparator.comparing(Client::getLicenseNumber, String.CASE_INSENSITIVE_ORDER);
+
 }

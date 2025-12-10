@@ -22,7 +22,6 @@ public class AdminDashboardController {
     @FXML private Button btnCars;
     @FXML private Button btnClients;
     @FXML private Button btnRentals;
-    @FXML private Button btnStatistics;
     @FXML private Button btnLogout;
     @FXML private Button btnBack;
     @FXML private Label lblWelcome;
@@ -37,7 +36,6 @@ public class AdminDashboardController {
     private final CarService carService = new CarService();
     private final ClientService clientService = new ClientService();
     private final RentalService rentalService = new RentalService();
-    private final StatisticsService statisticsService = new StatisticsService();
     private final UserService userService = new UserService();
 
     private User loggedUser;
@@ -82,14 +80,7 @@ public class AdminDashboardController {
             }
         });
 
-        btnStatistics.setOnAction(e -> {
-            try { 
-                loadStatistics();
-                btnBack.setVisible(true); // Show back button
-            } catch (Exception ex) { 
-                showError("Unable to load Statistics", ex.getMessage()); 
-            }
-        });
+        
         
         btnBack.setOnAction(e -> {
             try { 
@@ -130,7 +121,6 @@ public class AdminDashboardController {
         btnCars.setStyle(buttonStyle);
         btnClients.setStyle(buttonStyle);
         btnRentals.setStyle(buttonStyle);
-        btnStatistics.setStyle(buttonStyle);
         btnBack.setStyle(backButtonStyle);
         btnLogout.setStyle(buttonStyle + "-fx-background-color: #e74c3c;");
     }
@@ -148,7 +138,6 @@ public class AdminDashboardController {
         int totalCars = carService.getTotalCarsCount();
         int totalClients = clientService.getTotalClientsCount();
         int activeRentals = rentalService.getActiveRentalsCount();
-        double totalRevenue = statisticsService.getTotalRevenue();
 
         Label statsLabel = new Label("System Overview");
         statsLabel.setStyle("-fx-font-size: 24; -fx-font-weight: bold; -fx-text-fill: #2c3e50;");
@@ -157,8 +146,7 @@ public class AdminDashboardController {
         statsBox.getChildren().addAll(
                 createStatCard("Total Cars", String.valueOf(totalCars), "#3498db"),
                 createStatCard("Total Clients", String.valueOf(totalClients), "#2ecc71"),
-                createStatCard("Active Rentals", String.valueOf(activeRentals), "#e74c3c"),
-                createStatCard("Total Revenue", String.format("$%.2f", totalRevenue), "#f39c12")
+                createStatCard("Active Rentals", String.valueOf(activeRentals), "#e74c3c")
         );
 
         dashboard.getChildren().addAll(statsLabel, statsBox);
@@ -217,12 +205,7 @@ public class AdminDashboardController {
         contentArea.getChildren().setAll(view);
     }
 
-    private void loadStatistics() throws IOException {
-        currentView = "statistics";
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/statistics.fxml"));
-        Parent view = loader.load();
-        contentArea.getChildren().setAll(view);
-    }
+   
 
     private void logout() throws IOException {
         Stage currentStage = (Stage) btnLogout.getScene().getWindow();
@@ -231,7 +214,7 @@ public class AdminDashboardController {
         Parent loginRoot = loader.load();
 
         Stage loginStage = new Stage();
-        loginStage.setScene(new Scene(loginRoot, 600, 400));
+        loginStage.setScene(new Scene(loginRoot, 500, 700));
         loginStage.setTitle("Car Rental System - Login");
         loginStage.show();
 

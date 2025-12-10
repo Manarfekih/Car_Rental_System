@@ -16,4 +16,9 @@ public interface IClientDAO {
     Client getClientById(int clientId) throws SQLException, ClassNotFoundException;
 
     List<Client> getAllClients() throws SQLException, ClassNotFoundException;
+    
+    
+    
+    Client getClientByUserId(int userId) throws SQLException, ClassNotFoundException;
+    Client getClientByEmail(String email) throws SQLException, ClassNotFoundException;
 }

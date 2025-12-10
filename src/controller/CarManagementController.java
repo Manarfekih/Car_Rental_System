@@ -13,6 +13,7 @@ import model.Car;
 import service.CarService;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class CarManagementController {
@@ -33,6 +34,9 @@ public class CarManagementController {
     @FXML private Button btnUpdate;
     @FXML private Button btnDelete;
     @FXML private Label lblStatus;
+    
+    @FXML private ComboBox<String> sortCombo; 
+
 
     private final CarService carService = new CarService();
     private final ObservableList<Car> carList = FXCollections.observableArrayList();
@@ -41,6 +45,7 @@ public class CarManagementController {
     public void initialize() throws Exception {
         setupTableColumns();
         setupButtonActions();
+        setupSortCombo();
         loadCars();
     }
 
@@ -86,8 +91,10 @@ public class CarManagementController {
         );
     }
 
+    //Actions done by bottoms
     private void setupButtonActions() {
-        // All button actions now directly call methods that throw exceptions
+    	
+       
         btnSearch.setOnAction(e -> {
             try {
                 searchCars();
@@ -116,7 +123,7 @@ public class CarManagementController {
         btnUpdate.setOnAction(e -> {
             Car sel = carTable.getSelectionModel().getSelectedItem();
             if (sel == null) { 
-                // This is a validation error, not an exception - show error dialog
+            	//like an alert to do selecting
                 showError("Edit Car", "Please select a car to edit.");
                 return; 
             }
@@ -135,6 +142,37 @@ public class CarManagementController {
             }
         });
     }
+    
+    private void setupSortCombo() {
+        sortCombo.getItems().addAll(
+            "Brand & Model (Default)",
+            "Price Ascending",
+            "Year Descending"
+        );
+        sortCombo.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal != null) sortCars(newVal);
+        });
+        sortCombo.getSelectionModel().selectFirst();
+    }
+
+    private void sortCars(String option) {
+        if (carList == null || carList.isEmpty()) return;
+
+        switch(option) {
+            case "Price Ascending":
+                Collections.sort(carList, Car.SORT_BY_PRICE_ASC);
+                break;
+            case "Year Descending":
+                Collections.sort(carList, Car.SORT_BY_YEAR_DESC);
+                break;
+            default: // Brand & Model uses Comparable
+                Collections.sort(carList); // uses Comparable
+                break;
+        }
+
+        carTable.setItems(FXCollections.observableArrayList(carList));
+        lblStatus.setText("Sorted by " + option);
+    }
 
     private String nullSafe(String s) { 
         return s == null ? "" : s; 
@@ -145,6 +183,8 @@ public class CarManagementController {
         carList.setAll(all);
         carTable.setItems(carList);
         lblStatus.setText("Loaded " + all.size() + " cars");
+        sortCars(sortCombo.getSelectionModel().getSelectedItem());
+
     }
 
     @FXML
@@ -177,6 +217,7 @@ public class CarManagementController {
             throw new Exception("No car selected for deletion.");
         }
 
+        //confirmation for deletion
         Alert confirm = new Alert(Alert.AlertType.CONFIRMATION, 
             "Delete car " + selected.getBrand() + " " + selected.getModel() + " (ID: " + selected.getCarId() + ")?", 
             ButtonType.YES, ButtonType.NO);

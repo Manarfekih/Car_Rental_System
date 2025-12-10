@@ -144,21 +144,17 @@ public class RegisterController {
         Stage stage = new Stage();
 
         switch (user.getRole()) {
-            case "admin":
-                loader = new FXMLLoader(getClass().getResource("/view/AdminDashboard.fxml"));
+            case "client":
+                loader = new FXMLLoader(getClass().getResource("/view/ClientDashboard.fxml"));
                 root = loader.load();
-                AdminDashboardController adminController = loader.getController();
-                adminController.setLoggedUser(user);
+                ClientDashboardController clientController = loader.getController();
+                clientController.setLoggedUser(user);
                 stage.setTitle("Admin Dashboard - Welcome " + user.getUsername());
                 break;
 
             default:
-                loader = new FXMLLoader(getClass().getResource("/view/Main.fxml"));
-                root = loader.load();
-                MainController mainController = loader.getController();
-                mainController.setLoggedUser(user);
-                stage.setTitle("Welcome " + user.getUsername());
-                break;
+            	  messageLabel.setText("Failed to load Client Dashboard");
+                  return;
         }
 
         stage.setScene(new Scene(root));
